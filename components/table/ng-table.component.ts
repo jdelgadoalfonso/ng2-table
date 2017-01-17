@@ -2,7 +2,7 @@ import {Component, Directive, EventEmitter, ElementRef, Renderer} from '@angular
 
 @Component({
   selector: 'ngTable, [ngTable]',
-  inputs: ['rows', 'columns', 'config', 'id', 'cSelectAll'],
+  inputs: ['rows', 'columns', 'config', 'id', 'cSelectAll', 'setResponsive'],
   outputs: ['tableChanged'],
   styles: [`
     .table > thead > tr > th {
@@ -16,7 +16,7 @@ import {Component, Directive, EventEmitter, ElementRef, Renderer} from '@angular
     }
   `],
   template: `
-    <div class="table-responsive">
+    <div class="table-responsive" [ngClass]="{'table-responsive': setResponsive}">
       <table class="table table-striped table-bordered dataTable"
              role="grid" style="width: 100%;">
         <thead>
