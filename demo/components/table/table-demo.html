@@ -1,3 +1,18 @@
+<div *ngIf="config.configurableColumns" class="btn-group" dropdown>
+    <button type="button" class="btn btn-sm btn-default dropdown-toggle" title="Configure columns" dropdownToggle>
+      <span class="glyphicon glyphicon-th-large"></span>
+    </button>
+    <ul [ngClass]="{'dropdown-menu': true, 'dropdown-menu-left': left}" *dropdownMenu role="menu" style="min-width: 80px;">
+      <li *ngFor="let col of columns" [ngStyle]="{'display' : (col.configurable) ? 'normal' : 'none'}"
+           role="menuitem" style="cursor: pointer;" (click)="manageColumn($event, col)">
+           <a class="dropdown-item">
+             <span *ngIf="col.show" class="glyphicon glyphicon-eye-open"></span>
+             <span *ngIf="!col.show" class="glyphicon glyphicon-eye-close"></span> {{col.title}}
+           </a>
+     </li>
+    </ul>
+</div>
+
 <input *ngIf="config.filtering" placeholder="Filter"
        [ngTableFiltering]="config.filtering"
        (tableChanged)="onChangeTable(config)"/>

@@ -20,13 +20,13 @@ export class TableDemo implements OnInit {
 
   public rows: Array<any> = [];
   public columns: Array<any> = [
-    {title: 'Name', name: 'name', component: Editable, init: this._func2 },
-    {title: 'Position', name: 'position', component: Editable, init: this._func2, sort: false},
-    {title: 'Office', name: 'office', component: Editable, init: this._func2, sort: 'asc'},
-    {title: 'Extn.', name: 'ext', component: Editable, init: this._func2, sort: ''},
-    {title: 'Start date', name: 'startDate', component: Editable, init: this._func2 },
-    {title: 'Salary ($)', name: 'salary', component: Editable, init: this._func2 },
-    {title: '', name: 'id', component: Buttons, init: this._func, sort: false, filter: false }
+    { title: 'Name'      , name: 'name'     , component: Editable, init: this._func2                            , configurable: true, show: true },
+    { title: 'Position'  , name: 'position' , component: Editable, init: this._func2, sort: false               , configurable: true, show: true },
+    { title: 'Office'    , name: 'office'   , component: Editable, init: this._func2, sort: 'asc'               , configurable: true, show: true },
+    { title: 'Extn.'     , name: 'ext'      , component: Editable, init: this._func2, sort: ''                  , configurable: true, show: true },
+    { title: 'Start date', name: 'startDate', component: Editable, init: this._func2                            , configurable: true, show: true },
+    { title: 'Salary ($)', name: 'salary'   , component: Editable, init: this._func2                            , configurable: true, show: true },
+    { title: ''          , name: 'id'       , component: Buttons , init: this._func , sort: false, filter: false, configurable: true, show: true }
   ];
   public page: number = 1;
   public itemsPerPage: number = 10;
@@ -37,8 +37,22 @@ export class TableDemo implements OnInit {
   public config: any = {
     paging: true,
     sorting: {columns: this.columns},
-    filtering: {filterString: '', columnName: 'position'}
+    filtering: {filterString: '', columnName: 'position'},
+    configurableColumns: true
   };
+
+  protected manageColumn(event: MouseEvent, configColumn) {
+    event.stopPropagation();
+    configColumn.show = !configColumn.show;
+    let columnIndex = this.columns.findIndex(col => col.title === configColumn.title);
+    let foundColumn = this.columns[columnIndex];
+    if (foundColumn) {
+      this.columns[columnIndex] = Object.assign(
+        Object.create(foundColumn.constructor.prototype), foundColumn
+      );
+      this.onChangeTable(this.config);
+    }
+  }
 
   private data: Array<any> = TableData;
 

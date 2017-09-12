@@ -3,7 +3,8 @@ import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
 
-import {TabsModule, PaginationModule} from 'ngx-bootstrap';
+import {TabsModule, PaginationModule, BsDropdownModule,
+  ComponentLoaderFactory, PositioningService, BsDropdownConfig} from 'ngx-bootstrap';
 
 import {DCLModule} from 'dcl-component/dcl-component';
 
@@ -50,8 +51,9 @@ export class Demo {
 }
 
 @NgModule({
+  providers: [ ComponentLoaderFactory, PositioningService, BsDropdownConfig ],
   imports: [
-    BrowserModule, FormsModule, TabsModule.forRoot(), TableModule, PaginationModule.forRoot() ],
+    BrowserModule, FormsModule, TabsModule.forRoot(), TableModule, PaginationModule.forRoot(), BsDropdownModule ],
   declarations: [ Demo, TableSection, TableDemo, Editable, Buttons ],
   entryComponents: [ Editable, Buttons ],
   bootstrap: [ Demo ]

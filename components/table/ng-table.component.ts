@@ -1,4 +1,4 @@
-import {Component, Directive, EventEmitter, ElementRef, Renderer} from '@angular/core';
+import {Component, Directive, EventEmitter, ElementRef, Renderer, OnChanges, SimpleChanges} from '@angular/core';
 
 @Component({
   selector: 'ngTable, [ngTable]',
@@ -21,7 +21,7 @@ import {Component, Directive, EventEmitter, ElementRef, Renderer} from '@angular
              role="grid" style="width: 100%;">
         <thead>
         <tr role="row">
-          <th *ngFor="let column of columns; let i = index" [ngTableSorting]="config" [column]="column" (sortChanged)="onChangeTable($event)">
+          <th *ngFor="let column of columns; let i = index" [ngStyle]="{'display' : (column.configurable && !column.show) ? 'none' : 'normal'}" [ngTableSorting]="config" [column]="column" (sortChanged)="onChangeTable($event)">
             <div style="display: flex;">
               <dclcomponent *ngIf="i === cSelectAll.index" [identifier]="{column: column.name}" [type]="cSelectAll.component" [init]="cSelectAll.init"></dclcomponent>
               {{column.title}}
@@ -36,7 +36,7 @@ import {Component, Directive, EventEmitter, ElementRef, Renderer} from '@angular
         <tbody>
           <ng-template [ngIf]="rows && rows.length > 0" [ngIfElse]="empty_content">
             <tr *ngFor="let row of rows" [ngStyle]="row?.ngStyle">
-              <td *ngFor="let column of columns">
+              <td *ngFor="let column of columns" [ngStyle]="{'display' : (column.configurable && !column.show) ? 'none' : 'normal'}">
                 <dclcomponent [identifier]="{row: row[id], column: column.name}" [type]="column.component" [init]="column.init" [data]="row[column.name]"></dclcomponent>
               </td>
             </tr>
@@ -63,6 +63,13 @@ export class NgTable {
 
   // Outputs (Events)
   public tableChanged:EventEmitter<any> = new EventEmitter();
+
+  ngOnChanges(changes: SimpleChanges) {
+    let value = 'columns';
+    if (changes[value]) {
+      this._columns = changes[value].currentValue;
+    }
+  }
 
   public set columns(values:Array<any>) {
     values.forEach((value) => {
