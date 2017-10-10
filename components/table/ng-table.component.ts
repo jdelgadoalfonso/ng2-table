@@ -34,11 +34,20 @@ import {Component, Directive, EventEmitter, ElementRef, Renderer} from '@angular
         </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let row of rows" [ngStyle]="row?.ngStyle">
-            <td *ngFor="let column of columns">
-              <dclcomponent [identifier]="{row: row[id], column: column.name}" [type]="column.component" [init]="column.init" [data]="row[column.name]"></dclcomponent>
-            </td>
-          </tr>
+          <ng-template [ngIf]="rows && rows.length > 0" [ngIfElse]="empty_content">
+            <tr *ngFor="let row of rows" [ngStyle]="row?.ngStyle">
+              <td *ngFor="let column of columns">
+                <dclcomponent [identifier]="{row: row[id], column: column.name}" [type]="column.component" [init]="column.init" [data]="row[column.name]"></dclcomponent>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template #empty_content>
+            <tr>
+              <td [attr.colspan]="columns?.length" style="text-align: center">
+                There are no results that match your search or list is empty
+              </td>
+            </tr>
+          </ng-template>
         </tbody>
       </table>
     </div>
