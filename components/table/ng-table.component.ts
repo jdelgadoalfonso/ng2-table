@@ -2,7 +2,7 @@ import {Component, Directive, EventEmitter, ElementRef, Renderer, OnChanges, Sim
 
 @Component({
   selector: 'ngTable, [ngTable]',
-  inputs: ['rows', 'columns', 'config', 'id', 'cSelectAll', 'setResponsive'],
+  inputs: ['rows', 'columns', 'config', 'id', 'cSelectAll', 'setResponsive', 'summary'],
   outputs: ['tableChanged'],
   styles: [`
     .table > thead > tr > th {
@@ -18,7 +18,7 @@ import {Component, Directive, EventEmitter, ElementRef, Renderer, OnChanges, Sim
   template: `
     <div class="table-responsive" [ngClass]="{'table-responsive': setResponsive}">
       <table class="table table-striped table-bordered dataTable"
-             role="grid" style="width: 100%;">
+             [attr.summary]="summary" role="grid" style="width: 100%;">
         <thead>
         <tr role="row">
           <th *ngFor="let column of columns; let i = index" [ngStyle]="{'display' : (column.configurable && !column.show) ? 'none' : 'normal'}" [ngTableSorting]="config" [column]="column" (sortChanged)="onChangeTable($event)">
@@ -60,6 +60,7 @@ export class NgTable {
   public config:any = {};
   public id:string = 'id';
   public cSelectAll:any = {};
+  public summary:string;
 
   // Outputs (Events)
   public tableChanged:EventEmitter<any> = new EventEmitter();

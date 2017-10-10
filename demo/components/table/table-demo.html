@@ -18,7 +18,7 @@
        (tableChanged)="onChangeTable(config)"/>
 
 <ngTable [config]="config.sorting"
-           (tableChanged)="onChangeTable(config)"
+           (tableChanged)="onChangeTable(config)" [summary]="summary"
            [rows]="rows" [columns]="columns" [id]="'id'">
 </ngTable>
 <pagination *ngIf="config.paging"

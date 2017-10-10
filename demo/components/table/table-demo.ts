@@ -19,6 +19,7 @@ export class TableDemo implements OnInit {
   private _arr: { [row: number]: { [column: string]: Editable } };
 
   public rows: Array<any> = [];
+  private summary: string = 'descripcion';
   public columns: Array<any> = [
     { title: 'Name'      , name: 'name'     , component: Editable, init: this._func2                            , configurable: true, show: true },
     { title: 'Position'  , name: 'position' , component: Editable, init: this._func2, sort: false               , configurable: true, show: true },
